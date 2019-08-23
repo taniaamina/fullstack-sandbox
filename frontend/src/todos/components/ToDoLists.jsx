@@ -45,8 +45,6 @@ export const ToDoLists = ({ style }) => {
   }, [toDoLists]);
 
 
-
-
   if (!Object.keys(toDoLists).length) return null
   return <Fragment>
     <Card style={style}>

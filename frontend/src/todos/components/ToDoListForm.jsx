@@ -8,6 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import AddIcon from '@material-ui/icons/Add'
 import Typography from '@material-ui/core/Typography'
 import { TextField } from '../../shared/FormFields'
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles({
   card: {
@@ -33,9 +34,8 @@ const useStyles = makeStyles({
 export const ToDoListForm = ({ toDoList, saveToDoList }) => {
   const classes = useStyles()
   const [todos, setTodos] = useState(toDoList.todos)
+  const [checkBox, setCheckBox] = useState()
 
-  //localStorage.setItem('currentList', JSON.stringify({toDoLists}));
-  //console.log(JSON.parse(localStorage.getItem('currentList')));
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -43,18 +43,25 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
 
   }
 
+  const handleChange = name => event => {
+    setCheckBox({ ...checkBox, [name]: event.target.checked });
+  };
+
+
   return (
     <Card className={classes.card}>
       <CardContent>
         <Typography variant='headline' component='h2'>
           {toDoList.title}
         </Typography>
+
         <form onSubmit={handleSubmit} className={classes.form}>
           {todos.map((name, index) => (
             <div key={index} className={classes.todoLine}>
               <Typography className={classes.standardSpace} variant='title'>
                 {index + 1}
               </Typography>
+
               <TextField
                 label='What to do?'
                 value={name}
@@ -66,6 +73,12 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
                   ])
                 }}
                 className={classes.textField}
+              />
+              <Checkbox
+                value="checkedC"
+                inputProps={{
+                  'aria-label': 'uncontrolled-checkbox',
+                }}
               />
               <Button
                 size='small'

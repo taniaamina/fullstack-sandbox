@@ -31,9 +31,21 @@ export const ToDoLists = ({ style }) => {
   const [activeList, setActiveList] = useState()
 
   useEffect(() => {
+    if (localStorage.getItem("currentLists") == null) {
     getPersonalTodos()
       .then(setToDoLists)
-  }, [])
+    } else {
+      const currentLists = localStorage.getItem('currentLists');
+      setToDoLists(JSON.parse(currentLists));
+    }}, [])
+
+
+  useEffect(() => {
+      localStorage.setItem('currentLists', JSON.stringify(toDoLists));
+  }, [toDoLists]);
+
+
+
 
   if (!Object.keys(toDoLists).length) return null
   return <Fragment>
@@ -62,12 +74,13 @@ export const ToDoLists = ({ style }) => {
     {toDoLists[activeList] && <ToDoListForm
       key={activeList} // use key to make React recreate component to reset internal state
       toDoList={toDoLists[activeList]}
-      saveToDoList={(id, { todos }) => {
+       saveToDoList={(id, { todos }) => {
         const listToUpdate = toDoLists[id]
-        setToDoLists({
+        setToDoLists(
+          {
           ...toDoLists,
           [id]: { ...listToUpdate, todos }
-        })
+        } )
       }}
     />}
   </Fragment>

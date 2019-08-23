@@ -34,9 +34,13 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
   const classes = useStyles()
   const [todos, setTodos] = useState(toDoList.todos)
 
+  //localStorage.setItem('currentList', JSON.stringify({toDoLists}));
+  //console.log(JSON.parse(localStorage.getItem('currentList')));
+
   const handleSubmit = event => {
     event.preventDefault()
     saveToDoList(toDoList.id, { todos })
+
   }
 
   return (

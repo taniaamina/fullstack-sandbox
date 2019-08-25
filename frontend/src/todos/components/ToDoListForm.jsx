@@ -38,6 +38,7 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
     toDoList.checkBox
   )
 
+  console.log(todos)
   console.log(checkBox)
 
 
@@ -45,12 +46,6 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
     event.preventDefault()
     saveToDoList(toDoList.id, { todos }, {checkBox})
   }
-
-  const handleChange = name => event => {
-    setCheckBox({ ...checkBox, [name]: event.target.checked });
-  };
-
-
 
   return (
     <Card className={classes.card}>
@@ -75,12 +70,19 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
                     event.target.value,
                     ...todos.slice(index + 1)
                   ])
-                }}
+                }
+                }
                 className={classes.textField}
               />
               <Checkbox
                 checked={checkBox[index]}
-                onChange={handleChange(index)
+                onChange={event => {
+                  setCheckBox([
+                    ...checkBox.slice(0, index),
+                    event.target.checked,
+                    ...checkBox.slice(index + 1)
+                  ])
+                }
               }
                 value="checked"
                 inputProps={{
@@ -96,7 +98,13 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
                     ...todos.slice(0, index),
                     ...todos.slice(index + 1)
                   ])
-                }}
+                   setCheckBox([ // immutable delete
+                    ...checkBox.slice(0, index),
+                    ...checkBox.slice(index + 1)
+                  ])
+                }
+
+                }
               >
                 <DeleteIcon />
               </Button>
@@ -108,7 +116,8 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
               color='primary'
               onClick={() => {
                 setTodos([...todos, ''])
-              }}
+                setCheckBox([...checkBox, false])
+                }}
             >
               Add Todo <AddIcon />
             </Button>

@@ -34,18 +34,22 @@ const useStyles = makeStyles({
 export const ToDoListForm = ({ toDoList, saveToDoList }) => {
   const classes = useStyles()
   const [todos, setTodos] = useState(toDoList.todos)
-  const [checkBox, setCheckBox] = useState()
+  const [checkBox, setCheckBox] = useState(
+    toDoList.checkBox
+  )
+
+  console.log(checkBox)
 
 
   const handleSubmit = event => {
     event.preventDefault()
-    saveToDoList(toDoList.id, { todos })
-
+    saveToDoList(toDoList.id, { todos }, {checkBox})
   }
 
   const handleChange = name => event => {
     setCheckBox({ ...checkBox, [name]: event.target.checked });
   };
+
 
 
   return (
@@ -75,10 +79,13 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
                 className={classes.textField}
               />
               <Checkbox
-                value="checkedC"
+                checked={checkBox[index]}
+                onChange={handleChange(index)
+              }
+                value="checked"
                 inputProps={{
-                  'aria-label': 'uncontrolled-checkbox',
-                }}
+                'aria-label': 'uncontrolled-checkbox',
+              }}
               />
               <Button
                 size='small'

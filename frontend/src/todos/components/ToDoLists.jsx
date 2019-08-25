@@ -16,19 +16,23 @@ const getPersonalTodos = () => {
     '0000000001': {
       id: '0000000001',
       title: 'First List',
-      todos: ['First todo of first list!']
+      todos: ['First todo of first list!'],
     },
     '0000000002': {
       id: '0000000002',
       title: 'Second List',
-      todos: ['First todo of second list!']
+      todos: ['First todo of second list!'],
     }
   }))
 }
 
+
+
 export const ToDoLists = ({ style }) => {
   const [toDoLists, setToDoLists] = useState({})
   const [activeList, setActiveList] = useState()
+
+  console.log(toDoLists)
 
   useEffect(() => {
     if (localStorage.getItem("currentLists") == null) {
@@ -43,6 +47,7 @@ export const ToDoLists = ({ style }) => {
   useEffect(() => {
       localStorage.setItem('currentLists', JSON.stringify(toDoLists));
   }, [toDoLists]);
+
 
 
   if (!Object.keys(toDoLists).length) return null
@@ -72,12 +77,12 @@ export const ToDoLists = ({ style }) => {
     {toDoLists[activeList] && <ToDoListForm
       key={activeList} // use key to make React recreate component to reset internal state
       toDoList={toDoLists[activeList]}
-       saveToDoList={(id, { todos }) => {
+       saveToDoList={(id, { todos }, { checkBox }) => {
         const listToUpdate = toDoLists[id]
         setToDoLists(
           {
           ...toDoLists,
-          [id]: { ...listToUpdate, todos }
+          [id]: { ...listToUpdate, todos, checkBox }
         } )
       }}
     />}

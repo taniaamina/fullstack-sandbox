@@ -34,17 +34,11 @@ const useStyles = makeStyles({
 export const ToDoListForm = ({ toDoList, saveToDoList }) => {
   const classes = useStyles()
   const [todos, setTodos] = useState(toDoList.todos)
-  const [checkBox, setCheckBox] = useState(
-    toDoList.checkBox
-  )
-
-  console.log(todos)
-  console.log(checkBox)
-
+  const [checkBox, setCheckBox] = useState(toDoList.checkBox) //using current state for checkboxes
 
   const handleSubmit = event => {
     event.preventDefault()
-    saveToDoList(toDoList.id, { todos }, {checkBox})
+    saveToDoList(toDoList.id, { todos }, {checkBox}) //added checkbox state to toDoList
   }
 
   return (
@@ -74,7 +68,7 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
                 }
                 className={classes.textField}
               />
-              <Checkbox
+              <Checkbox                         //added checkbox icon and eventhandler for checkbox.
                 checked={checkBox[index]}
                 onChange={event => {
                   setCheckBox([
@@ -98,7 +92,7 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
                     ...todos.slice(0, index),
                     ...todos.slice(index + 1)
                   ])
-                   setCheckBox([ // immutable delete
+                   setCheckBox([ // immutable delete      /deleting checkbox and state of it in list
                     ...checkBox.slice(0, index),
                     ...checkBox.slice(index + 1)
                   ])
@@ -116,7 +110,7 @@ export const ToDoListForm = ({ toDoList, saveToDoList }) => {
               color='primary'
               onClick={() => {
                 setTodos([...todos, ''])
-                setCheckBox([...checkBox, false])
+                setCheckBox([...checkBox, false])   //adding checkBox if adding new list item. setting it to false. 
                 }}
             >
               Add Todo <AddIcon />

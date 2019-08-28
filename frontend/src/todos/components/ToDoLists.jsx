@@ -17,7 +17,7 @@ const getPersonalTodos = () => {
       id: '0000000001',
       title: 'First List',
       todos: ['First todo of first list!'],
-      checkBox: ['']
+      checkBox: ['']                  //adding checkBox do dictionary.
     },
     '0000000002': {
       id: '0000000002',
@@ -34,23 +34,20 @@ export const ToDoLists = ({ style }) => {
   const [toDoLists, setToDoLists] = useState({})
   const [activeList, setActiveList] = useState()
 
-localStorage.clear();
 
-  useEffect(() => {
-    if (localStorage.getItem("currentLists") == null) {
+  useEffect(() => {                        //making sure that whatever is saved  in the todolist and persisted on the server is loaded when refreshing the state.
+    if (localStorage.getItem("currentLists") == null) {     //checking if something has been saved
     getPersonalTodos()
       .then(setToDoLists)
     } else {
-      const currentLists = localStorage.getItem('currentLists');
+      const currentLists = localStorage.getItem('currentLists');  //getting data from server
       setToDoLists(JSON.parse(currentLists));
     }}, [])
 
 
   useEffect(() => {
-      localStorage.setItem('currentLists', JSON.stringify(toDoLists));
+      localStorage.setItem('currentLists', JSON.stringify(toDoLists));  //saving data to server.
   }, [toDoLists]);
-
-
 
   if (!Object.keys(toDoLists).length) return null
   return <Fragment>
@@ -79,12 +76,12 @@ localStorage.clear();
     {toDoLists[activeList] && <ToDoListForm
       key={activeList} // use key to make React recreate component to reset internal state
       toDoList={toDoLists[activeList]}
-       saveToDoList={(id, { todos }, { checkBox }) => {
+       saveToDoList={(id, { todos }, { checkBox }) => { //saving checkbox state.
         const listToUpdate = toDoLists[id]
         setToDoLists(
           {
           ...toDoLists,
-          [id]: { ...listToUpdate, todos, checkBox }
+          [id]: { ...listToUpdate, todos, checkBox }    //adding checkbox data to todolists.
         } )
       }}
     />}
